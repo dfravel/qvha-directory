@@ -1,3 +1,5 @@
+import { firebaseAuth } from "boot/firebase";
+
 const state = () => ({});
 
 const getters = {};
@@ -5,7 +7,7 @@ const getters = {};
 const mutations = {};
 
 const actions = {
-    registerUser({ commit }, payload) {
+    registerUser(commit, payload) {
         console.log(payload);
     }
 };

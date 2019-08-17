@@ -1,18 +1,50 @@
 <template>
     <q-page>
-        <div class="q-pa-md">
-            <q-table title="Address" :columns="columns" row-key="id" />
-        </div>
+        <div class="q-pa-md absolute full-width full-height column">
+            <template v-if="addressesDownloaded">
+                <div class="q-pa-md">
+                    <q-table
+                        title="Address"
+                        :columns="columns"
+                        :data="addresses"
+                        :filter="filter"
+                        row-key="index"
+                    >
+                        <template v-slot:top-right>
+                            <q-input
+                                borderless
+                                dense
+                                debounce="300"
+                                v-model="filter"
+                                placeholder="Search"
+                            >
+                                <template v-slot:append>
+                                    <q-icon name="search" />
+                                </template>
+                            </q-input>
+                        </template>
+                    </q-table>
+                </div>
 
-        <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
-            <q-btn
-                @click="showAddAddress = true"
-                round
-                class="all-pointer-events"
-                color="primary"
-                size="24px"
-                icon="add"
-            />
+                <div
+                    class="absolute-bottom text-center q-mb-lg no-pointer-events"
+                >
+                    <q-btn
+                        @click="showAddAddress = true"
+                        round
+                        class="all-pointer-events"
+                        color="primary"
+                        size="24px"
+                        icon="add"
+                    />
+                </div>
+            </template>
+
+            <template v-else>
+                <span class="absolute-center">
+                    <q-spinner color="primary" size="6em" />
+                </span>
+            </template>
         </div>
 
         <q-dialog v-model="showAddAddress">
@@ -28,34 +60,50 @@ import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
+            filter: "",
             showAddAddress: false,
             columns: [
                 {
                     label: "Street Number",
-                    sortable: true
+                    sortable: true,
+                    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
+                    align: "left",
+                    name: "streetNumber",
+                    field: "physicalStreetNumber"
                 },
                 {
                     label: "Street Name",
-                    sortable: true
+                    sortable: true,
+                    align: "left",
+                    name: "streetName",
+                    field: "physicalStreetName"
                 },
                 {
                     label: "City",
-                    sortable: true
+                    sortable: false,
+                    align: "left",
+                    field: "physicalCity"
                 },
                 {
                     label: "State",
-                    sortable: true
+                    sortable: false,
+                    align: "left",
+                    field: "physicalState"
                 },
                 {
                     label: "Zip Code",
-                    sortable: true
+                    sortable: false,
+                    align: "left",
+                    field: "physicalZip"
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters("address", "getAddresses"),
-        ...mapState("address", "addressesDownloaded")
+        ...mapGetters({
+            addresses: "address/getAddresses"
+        }),
+        ...mapState("address", ["addressesDownloaded"])
     },
 
     components: {

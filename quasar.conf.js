@@ -53,7 +53,8 @@ module.exports = function(ctx) {
                 "QToggle",
                 "QTabPanels",
                 "QTabPanel",
-                "QSeparator"
+                "QSeparator",
+                "QSpinner"
             ],
 
             directives: ["Ripple", "ClosePopup"],

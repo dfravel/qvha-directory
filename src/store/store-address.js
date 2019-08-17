@@ -27,7 +27,7 @@ const mutations = {
 
 const getters = {
     getAddresses(state) {
-        return state.addresses;
+        return Object.values(state.addresses);
     }
 };
 
@@ -66,9 +66,11 @@ const actions = {
     },
 
     fbReadData({ commit }) {
-        // console.log("reading from firebase");
-        // console.log(firebaseAuth.currentUser);
         let addresses = firebaseDb.ref("addresses/");
+
+        addresses.once("value", () => {
+            commit("SET_ADDRESSES_DOWNLOADED", true);
+        });
 
         // address added
         addresses.on("child_added", snapshot => {

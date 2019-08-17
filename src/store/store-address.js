@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { uid } from "quasar";
 import { firebaseDb } from "boot/firebase";
 
 const state = {
@@ -22,6 +23,16 @@ const mutations = {
 const getters = {};
 
 const actions = {
+    addAddress({ commit }, address) {
+        let addressId = uid();
+        let payload = {
+            id: addressId,
+            address: address
+        };
+
+        commit("ADD_ADDRESS", payload);
+    },
+
     fbReadData({ commit }) {
         // console.log("reading from firebase");
         // console.log(firebaseAuth.currentUser);

@@ -22,25 +22,15 @@ module.exports = function(ctx) {
         ],
 
         framework: {
-            // iconSet: 'ionicons-v4',
-            // lang: 'de', // Quasar language
-
-            // all: true, // --- includes everything; for dev only!
-
             components: [
                 "QLayout",
                 "QHeader",
-                "QDrawer",
                 "QPageContainer",
                 "QPage",
                 "QToolbar",
                 "QToolbarTitle",
                 "QBtn",
                 "QIcon",
-                "QList",
-                "QItem",
-                "QItemSection",
-                "QItemLabel",
                 "QTable",
                 "QTh",
                 "QTr",
@@ -56,12 +46,9 @@ module.exports = function(ctx) {
                 "QCardSection",
                 "QCardActions",
                 "QSpace",
+                "QForm",
                 "QInput",
-                "QDate",
-                "QPopupProxy",
-                "QTime",
                 "QBanner",
-                "QSelect",
                 "QScrollArea",
                 "QToggle",
                 "QTabPanels",
@@ -69,7 +56,7 @@ module.exports = function(ctx) {
                 "QSeparator"
             ],
 
-            directives: ["Ripple"],
+            directives: ["Ripple", "ClosePopup"],
 
             // Quasar plugins
             plugins: ["Notify", "Dialog", "LocalStorage"]

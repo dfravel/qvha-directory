@@ -3,7 +3,8 @@ import { uid } from "quasar";
 import { firebaseDb } from "boot/firebase";
 
 const state = {
-    addresses: {}
+    addresses: {},
+    addressesDownloaded: false
 };
 
 const mutations = {
@@ -17,20 +18,51 @@ const mutations = {
 
     DELETE_TASK(state, id) {
         Vue.delete(state.addresses, id);
+    },
+
+    SET_ADDRESSES_DOWNLOADED(state, value) {
+        state.addressesDownloaded = value;
     }
 };
 
-const getters = {};
+const getters = {
+    getAddresses(state) {
+        return state.addresses;
+    }
+};
 
 const actions = {
-    addAddress({ commit }, address) {
+    addAddress({ dispatch }, address) {
         let addressId = uid();
         let payload = {
             id: addressId,
             address: address
         };
+        dispatch("fbAddAddress", payload);
+    },
 
-        commit("ADD_ADDRESS", payload);
+    updateAddress({ dispatch }, payload) {
+        dispatch("fbUpdateTask", payload);
+    },
+
+    deleteAddress({ dispatch }, id) {
+        dispatch("fbDeleteAddress", id);
+    },
+
+    // firebase add a new address
+    fbAddAddress(commit, payload) {
+        let addressRef = firebaseDb.ref("addresses/" + payload.id);
+        addressRef.set(payload.address);
+    },
+
+    fbUpdateAddress(commit, payload) {
+        let addressRef = firebaseDb.ref("addresses/" + payload.id);
+        addressRef.update(payload.updates);
+    },
+
+    fbDeleteAddress(commit, addressId) {
+        let addressRef = firebaseDb.ref("addresses/" + addressId);
+        addressRef.remove();
     },
 
     fbReadData({ commit }) {

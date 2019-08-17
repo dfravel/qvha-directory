@@ -13,6 +13,7 @@
                         v-model="addressToSubmit.physicalStreetNumber"
                         type="number"
                         label="Street Number"
+                        autofocus
                         class="q-mr-sm"
                         :rules="[val => !!val || 'Field is required']"
                     />
